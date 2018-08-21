@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Nackowskis.Models;
 
 namespace Nackowskis
 {
@@ -21,7 +24,7 @@ namespace Nackowskis
         {
             services.AddMvc();
 
-            /*
+            
              services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"
                 )));
@@ -35,7 +38,7 @@ namespace Nackowskis
                 })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
-                */
+
 
             services.AddSession(options =>
             {
@@ -54,7 +57,6 @@ namespace Nackowskis
             app.UseStaticFiles();
             app.UseSession();
             app.UseAuthentication();
-
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
