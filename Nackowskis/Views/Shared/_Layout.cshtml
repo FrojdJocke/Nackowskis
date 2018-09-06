@@ -1,0 +1,117 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Nackowskis.Models
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Nackowskis</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.ajax.unobtrusive/3.2.4/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.17.0/jquery.validate.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validation.unobtrusive/3.2.6/jquery.validate.unobtrusive.min.js"></script>
+    <link rel="stylesheet" id="font-awesome-css" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" type="text/css" media="screen">
+    <link href="~/Styles/LayoutStyles.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <script src="~/JS/JavaScript.js" defer></script>
+    @inject SignInManager<ApplicationUser> SignInManager
+    @inject UserManager<ApplicationUser> UserManager
+
+</head>
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid fantasy">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#mainNavBar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand brandy" style="font-size: 35px !important;" asp-controller="Home" asp-action="Index">Nackowskis</a>
+            </div>
+            <div class="collapse navbar-collapse" id="mainNavBar">
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a asp-controller="Home" asp-action="Index">Start</a>
+                        </li>
+
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+
+                                    <span class="glyphicon glyphicon-user"></span>
+                                    <text>Admin</text>
+                                    <span class="caret"></span>
+
+
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a asp-controller="Home" asp-action="Index">Dashboard</a>
+                                    </li>
+                                    <li>
+                                        <a asp-controller="Home" asp-action="Index">Auctions</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        }
+
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+
+                        <li>
+                            <a asp-controller="User" asp-action="SignOut">Sign out</a>
+                        </li>
+                    </ul>
+                }
+                else
+                {
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a asp-controller="User" asp-action="Register">
+                                Register
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-controller="User"
+                               asp-action="SignIn"
+                               data-ajax="true"
+                               data-ajax-method="get"
+                               data-ajax-mode="replace"
+                               data-ajax-update="#myModal"
+                               data-toggle="modal" data-target="#myModal">
+                                <span class="glyphicon glyphicon-log-in"></span> Logga in
+                            </a>
+                        </li>
+                    </ul>
+                }
+
+
+            </div>
+
+        </div>
+    </nav>
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" role="dialog">
+
+    </div>
+
+    <a href="#" class="back-to-top" style="display: inline;">
+        <i class="fa fa-arrow-circle-up custom-up-arrow"></i>
+    </a>
+    <div class="row container-fluid">
+        <div class="col-sm-10 col-sm-offset-1 panel" style="background-color: yellow;" align="center">
+            <div class="content">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+</body>
+</html>

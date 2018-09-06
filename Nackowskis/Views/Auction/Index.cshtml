@@ -1,0 +1,53 @@
+﻿@using System.Globalization
+@model Nackowskis.ViewModels.AuctionViewModel
+<script defer>
+    $(function() {
+        $("#searchInput").keyup(function() {
+            console.log("keyup");
+            $("#searchSubmit").trigger('submit');
+        });
+        $("#searchSubmit").trigger('submit');
+        $("#sortSelect").change(function() {
+            $("#searchSubmit").trigger('submit');
+        });
+    });
+
+</script>
+<link href="~/Styles/AuctionStyles.css" rel="stylesheet"/>
+<div class="container-fluid">
+    <div class="row">
+        <div id="auctionHeader">
+            <img class="animated bounceInDown delay-2s" style="width: 700px; height: auto;" src="~/Images/picturetopeople.org-b1282800b74f290c522d6f23aa258731668939295bad5ef31c.png"/>
+
+        </div>
+    </div>
+    <br/><br/>
+    <div class="row">
+        <form asp-controller="Auction" asp-action="GetAuctions" data-ajax="true" data-ajax-method="get" data-ajax-mode="replace"
+              data-ajax-update="#auctionTable">
+            <div class="form-group">
+                <div class="col-sm-8">
+                    <label>Search for auctions</label>
+                    <input asp-for="SearchFilter" id="searchInput" type="text" class="form-control" placeholder="Search auction">
+                </div>
+                <div class="col-sm-4">
+                    <label>Sort by</label>
+                    <select asp-for="SortOrder" id="sortSelect" class="form-control">
+                        <option selected="selected" disabled="disabled">None</option>
+                        <option value="estimate">Estimate</option>
+                        <option value="deadline">Deadline</option>
+                    </select>
+                </div>
+                <input type="submit" id="searchSubmit" hidden/>
+            </div>
+        </form>
+    </div>
+    <br/><br/>
+    <div id="auctionTable" class="row" style="max-height: 282px; overflow-y: auto; background-color: white;">
+        @await Html.PartialAsync("_Auctions", Model)
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="auctionDetailsModal" role="dialog">
+
+</div>

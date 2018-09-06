@@ -1,0 +1,56 @@
+﻿.back-to-top {
+    background: none;
+    margin: 0;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 70px;
+    height: 70px;
+    z-index: 100;
+    display: none;
+    text-decoration: none;
+    color: lime;
+    background-color: transparent;
+}
+
+.back-to-top i {
+    font-size: 60px;
+}
+.fantasy {
+    font-family: Copperplate Gothic Light;
+    font-size: 18px;
+}
+
+.brandy {
+    font-size: 27px;
+    font-weight: bold;
+}
+.content {
+    padding: 15px;
+    margin-top: 60px;
+}
+
+.modal-open .modal .btn:focus {
+    outline: none !important;
+}
+.modal-content {
+    background-color: white;
+}
+
+.modalLogin {
+    background-image: url('../images/bukowskis market störst i göteborg.jpg');
+    background-size: cover;
+}
+
+.modalText {
+    color: lightgoldenrodyellow;
+}
+
+.modalInput {
+    opacity: 0.8;
+}
+
+.modal-btn {
+    background-image: linear-gradient(to bottom right, maroon, gray) !important;
+    color: white;
+}

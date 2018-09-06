@@ -1,0 +1,64 @@
+﻿@model Nackowskis.ViewModels.AuctionDetailsViewModel
+
+<div class="modal-dialog" style="max-height: 200px;">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h2 class="modal-title">Details</h2>
+        </div>
+        <div class="modal-body">
+            <!-- Här kan man skriva Modalens innehåll-->
+            <div class="container-fluid" align="center">
+                <div class="row" style="background-color: yellow;">
+                    <div class="col-sm-6">
+                        <h1>@Model.Auction.Titel</h1>
+                    </div>
+                    <div class="col-sm-6">
+
+                        @if (Model.Auction.SlutDatum > DateTime.Now)
+                        {
+                            <h3>Highest Bid</h3>
+                            <label>@(Model.Bids.Max(x => x.Summa).ToString()):-</label>
+                            <br /><br />
+                            <form asp-controller="Auction" asp-action="NewBid" method="post">
+                                <input asp-for="NewBid.Summa" type="number" min="@(Model.Bids.Max(x => x.Summa)+1)" value="@(Model.Bids.Max(x => x.Summa)+1)" />
+                                <input type="submit" value="Bid" />
+                                <input asp-for="NewBid.AuktionID" value="@Model.Auction.AuktionID" hidden />
+                                <input asp-for="NewBid.Budgivare" value="@User.Identity.Name" hidden />
+                            </form>
+                        }
+                        else
+                        {
+                            <h3>Winning Bid</h3>
+                            <label>@(Model.Bids.Max(x => x.Summa).ToString()):-</label>
+                            <br /><br />
+                        }
+
+                    </div>
+                </div>
+                <div class="row" style="background-color: lime;">
+                    <div class="col-sm-6">
+                        <label>Deadline: @Model.Auction.SlutDatum.ToString()</label>
+                    </div>
+                </div>
+
+                <div div class="row" style="background-color: aqua;">
+                    <div class="col-sm-12" style="overflow-y: auto; max-height: 200px;">
+                        <p>@Model.Auction.Beskrivning</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <form ></form>
+                </div>
+            </div>
+            <!--Innehåll Slut-->
+        </div>
+        <div class="modal-footer" style="background-color: red;">
+            
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+    </div>
+
+</div>

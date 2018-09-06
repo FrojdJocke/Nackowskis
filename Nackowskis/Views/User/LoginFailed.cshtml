@@ -1,0 +1,15 @@
+﻿@model Nackowskis.ViewModels.UserModel
+
+<h3>Login Failed</h3>
+<form asp-controller="User" asp-action="Authorize">
+    <label>Användarnamn</label><br />
+    <input autocomplete="off" asp-for="@Model.UserName" class="modalInput panel" type="text" />
+    <span asp-validation-for="@Model.UserName"></span><br />
+
+
+    <label>Lösenord</label><br />
+    <input autocomplete="off" asp-for="@Model.Password" class="modalInput panel" type="password" />
+    <span asp-validation-for="@Model.Password"></span>
+    <br /><br />
+    <input id="login" type="submit" value="Logga in" class="btn btn-default" />
+</form>

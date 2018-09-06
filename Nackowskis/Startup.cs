@@ -5,7 +5,9 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Nackowskis.Infrastructure;
 using Nackowskis.Models;
+using Nackowskis.Repository;
 
 namespace Nackowskis
 {
@@ -28,6 +30,11 @@ namespace Nackowskis
              services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"
                 )));
+
+            services.AddTransient<IAuctionRepository, AuctionRepository>();
+            services.AddTransient<IBidRepository, BidRepository>();
+            services.AddTransient<UserMethods>();
+            services.AddTransient<AuctionMethods>();
             services.AddIdentity<ApplicationUser, IdentityRole>(o =>
                 {
                     o.Password.RequireDigit = false;
@@ -45,6 +52,9 @@ namespace Nackowskis
                 options.IdleTimeout = TimeSpan.FromMinutes(30);
             });
             services.AddDistributedMemoryCache();
+
+            services.AddSingleton<HttpClientServices>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -57,6 +67,7 @@ namespace Nackowskis
             app.UseStaticFiles();
             app.UseSession();
             app.UseAuthentication();
+            app.UseHttpsRedirection();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

@@ -1,0 +1,32 @@
+﻿@model Nackowskis.ViewModels.UserModel
+
+<div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content modalLogin">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h2 class="modal-title modalText">Logga in</h2>
+        </div>
+        <div class="modal-body">
+            <!-- Här kan man skriva Modalens innehåll-->
+            <form asp-controller="User" asp-action="Authorize" method="post">
+                <label class="modalText">Användarnamn</label><br />
+                <input autocomplete="off" asp-for="@Model.UserName" class="modalInput panel" type="text" />
+                <span asp-validation-for="@Model.UserName"></span><br />
+
+
+                <label class="modalText">Lösenord</label><br />
+                <input autocomplete="off" asp-for="@Model.Password" class="modalInput panel" type="password" />
+                <span asp-validation-for="@Model.Password"></span>
+                <br /><br />
+                <input id="login" type="submit" value="Logga in" class="btn btn-default modal-btn" />
+            </form>
+
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default modal-btn" data-dismiss="modal">Close</button>
+        </div>
+    </div>
+
+</div>
