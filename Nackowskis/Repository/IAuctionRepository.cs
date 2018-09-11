@@ -13,7 +13,15 @@ namespace Nackowskis.Repository
 
         Auction GetAuction(int auctionId);
 
-        List<Auction> GetFilteredAuctions(string filter);
-        
+        //List<Auction> GetFilteredAuctions(string filter);
+
+        List<Auction> GetUserAuctions(string name);
+
+        bool PostAuction(Auction model);
+
+        bool DeleteAuction(int Id);
+
+        bool UpdateAuction(Auction model);
+
     }
 }

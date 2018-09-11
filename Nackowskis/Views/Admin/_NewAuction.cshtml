@@ -1,0 +1,106 @@
+﻿@model Nackowskis.Models.Auction
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+    $(function () {
+        $("#datepicker").datepicker();
+        
+    });
+</script>
+
+<div class="modal-dialog modal-lg" >
+
+    <!-- Modal content-->
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h2 class="modal-title">Details</h2>
+        </div>
+        <div class="modal-body">
+            <!-- Här kan man skriva Modalens innehåll-->
+            @if((bool)ViewData["Update"] == false)
+            {
+            <form asp-controller="Auction" asp-action="NewAuction" style="padding-bottom: 40px;">
+                <div class="form-row">
+                    <div class="form-group col-sm-6">
+                        <label asp-for="Titel">Titel</label>
+                        <input type="text" class="form-control" asp-for="Titel" placeholder="" required>
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <label asp-for="Utropspris">Estimate</label>
+                        <input type="number" value="" class="form-control" asp-for="Utropspris" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Beskrivning">Description</label>
+                    <textarea class="form-control" placeholder="Description" asp-for="Beskrivning" required style="resize: none; height: 100px;"></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-sm-6 col-sm-offset-3">
+                        <label asp-for="SlutDatum">End Date</label>
+                        <input asp-for="SlutDatum" type="text" value="" id="datepicker" class="form-control" style="z-index: 5000;" required>
+                    </div>
+                    <div class="form-group col-sm-2 col-sm-offset-1">
+                        <label> </label>
+                        <input type="hidden" asp-for="SkapadAv" value="@User.Identity.Name"/>
+                        <input type="submit" class="btn btn-primary form-control" value="Create"/>
+                    </div>
+                </div>
+                
+
+
+            </form>
+
+            }
+            else
+            {
+                <form asp-controller="Auction" asp-action="UpdateAuction" asp-route-auctionId="@Model.AuktionID" style="padding-bottom: 40px;">
+                    <div class="form-row">
+                        <div class="form-group col-sm-6">
+                            <label asp-for="Titel">Titel</label>
+                            <input type="text" class="form-control" asp-for="Titel" value="@Model.Titel" required>
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label asp-for="Utropspris">Estimate</label>
+                            <input type="number" class="form-control" asp-for="Utropspris" value="@Model.Utropspris" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Beskrivning">Description</label>
+                        <textarea class="form-control" placeholder="Description" asp-for="Beskrivning" style="resize: none; height: 100px;" aria-valuetext="@Model.Beskrivning" required></textarea>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-sm-6 col-sm-offset-3">
+                            <label asp-for="SlutDatum">End Date</label>
+                            <input asp-for="SlutDatum" value="@Model.SlutDatum.ToString("d")" type="text" id="datepicker" class="form-control" style="z-index: 5000;" required>
+                        </div>
+                        <div class="form-group col-sm-2 col-sm-offset-1">
+                            <label> </label>
+                            <input type="hidden" asp-for="SkapadAv" value="@User.Identity.Name" />
+                            <input type="hidden" asp-for="Gruppkod" value="@Model.Gruppkod" />
+                            <input type="hidden" asp-for="AuktionID" value="@Model.AuktionID" />
+                            <input type="hidden" asp-for="StartDatum" value="@Model.StartDatum.ToString("d")" />
+                            <input type="submit" class="btn btn-primary form-control" value="Update" />
+                        </div>
+                    </div>
+                
+
+
+                </form>
+            }
+            <!--Innehåll Slut-->
+        </div>
+        <br/>
+        <div class="modal-footer" style="background-color: red;">
+            
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+    </div>
+
+</div>
+
+
+
+

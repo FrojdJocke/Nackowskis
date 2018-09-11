@@ -10,6 +10,6 @@ namespace Nackowskis.Repository
     {
         List<Bid> GetBidsForAuction(int auctionId);
 
-        bool PostNewBid(Bid newBid);
+        bool PostBid(Bid newBid);
     }
 }

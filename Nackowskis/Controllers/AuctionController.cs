@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Nackowskis.Infrastructure;
 using Nackowskis.Models;
 using Nackowskis.Repository;
@@ -13,17 +14,10 @@ namespace Nackowskis.Controllers
 {
     public class AuctionController : Controller
     {
-        private readonly IAuctionRepository _auctionRepo;
-        private readonly IBidRepository _bidRepo;
         private readonly AuctionMethods _auctionMethods;
 
-        public AuctionController(IAuctionRepository repo, IBidRepository bidRepo, AuctionMethods auctionMethods)
-        {
-            _auctionRepo = repo;
-            _bidRepo = bidRepo;
-            _auctionMethods = auctionMethods;
-        }
-        
+        public AuctionController(AuctionMethods auctionMethods) => _auctionMethods = auctionMethods;
+
         public IActionResult Index()
         {
             return View(new AuctionViewModel { Auctions = new List<Auction>(), SearchFilter = "" });
@@ -35,13 +29,13 @@ namespace Nackowskis.Controllers
 
             if (string.IsNullOrWhiteSpace(vm.SearchFilter))
             {
-                var auctions = _auctionRepo.GetAuctions();
+                var auctions = _auctionMethods.GetAuctions();
                 model.Auctions = _auctionMethods.RemoveExpiredAuctions(auctions);
                 model.SearchFilter ="";
             }
             else
             {
-                model.Auctions = _auctionRepo.GetFilteredAuctions(vm.SearchFilter);
+                model.Auctions = _auctionMethods.GetFilteredAuctions(vm.SearchFilter);
                 model.SearchFilter = vm.SearchFilter;
             }
 
@@ -65,14 +59,61 @@ namespace Nackowskis.Controllers
             return PartialView("_AuctionDetails", model);
         }
 
+        //Fixa callback för info om vad som hänt
         public IActionResult NewBid(AuctionDetailsViewModel vm)
         {
-            var success = _bidRepo.PostNewBid(vm.NewBid);
-            if (success)
+            //var bidValid = _auctionMethods.BidIsValid(vm.Bids.Max(x => x.Summa), vm.NewBid.Summa);
+            //if (!bidValid)
+            //    TempData["BidInvalid"] = "Bid was lower that the current highest bid. Don't be cheap stupid!";
+            bool success = _auctionMethods.PostNewBid(vm.NewBid);
+            if (success /*&& bidValid*/)
             {
+                return RedirectToAction("Index");
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult NewAuction(Auction vm)
+        {
+            if (ModelState.IsValid)
+            {
+                var auctionSuccess = _auctionMethods.CreateNewAuction(vm);
+                if (auctionSuccess)
+                {
+                    TempData["NewAuctionCreate"] = "New auction was succefully created!";
+
+                    return RedirectToAction("Auctions", "Admin");
+                }
+                TempData["NewAuctionCreate"] = "There was a problem creating your auction. Please try again later";
+                return RedirectToAction("Auctions", "Admin");
+            }
+
+            TempData["NewActionErrors"] = "";
+            foreach (var state in ViewData.ModelState.Values)
+            {
+                foreach (var error in state.Errors)
+                {
+                    TempData["NewAuctionErrors"] += $"{error.ErrorMessage}, ";
+                }
+            }
+            return RedirectToAction("Auctions", "Admin");
+        }
+
+        public IActionResult UpdateAuction(Auction vm, int auctionId)
+        {
+            if (ModelState.IsValid)
+            {
+                var auctionSuccess = _auctionMethods.UpdateAuction(vm);
+                if (auctionSuccess)
+                {
+                    TempData["Update"] = "Auction was successfully updated!";
+                    return RedirectToAction("Auctions", "Admin");
+                }
 
             }
-            return View();
+            TempData["Update"] = "Something went wrong. Try again later";
+            return RedirectToAction("Auctions", "Admin");
         }
     }
 }

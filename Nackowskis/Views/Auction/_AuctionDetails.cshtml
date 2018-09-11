@@ -20,10 +20,11 @@
                         @if (Model.Auction.SlutDatum > DateTime.Now)
                         {
                             <h3>Highest Bid</h3>
-                            <label>@(Model.Bids.Max(x => x.Summa).ToString()):-</label>
+                            <label>@(Model.Bids.Count > 0 ? Model.Bids.Max(x => x.Summa).ToString()+":-" : "No bids at this moment")</label>
                             <br /><br />
                             <form asp-controller="Auction" asp-action="NewBid" method="post">
-                                <input asp-for="NewBid.Summa" type="number" min="@(Model.Bids.Max(x => x.Summa)+1)" value="@(Model.Bids.Max(x => x.Summa)+1)" />
+                                <input asp-for="NewBid.Summa" type="number" min="@(Model.Bids.Count > 0 ? Model.Bids.Max(x => x.Summa)+1 : Model.Auction.Utropspris)" 
+                                       value="@(Model.Bids.Count > 0 ? Model.Bids.Max(x => x.Summa)+1 : Model.Auction.Utropspris)" />
                                 <input type="submit" value="Bid" />
                                 <input asp-for="NewBid.AuktionID" value="@Model.Auction.AuktionID" hidden />
                                 <input asp-for="NewBid.Budgivare" value="@User.Identity.Name" hidden />

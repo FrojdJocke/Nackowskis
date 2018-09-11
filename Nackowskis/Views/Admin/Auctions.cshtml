@@ -1,0 +1,44 @@
+﻿@model List<Nackowskis.ViewModels.AdminAuctionViewModel>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script defer>
+    
+</script>
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div id="auctionHeader">
+            <h1 style="font-size: 50px;">My Auctions</h1>
+        </div>
+    </div>
+    <br /><br />
+          <div class="row">
+              @if (!string.IsNullOrWhiteSpace((string)TempData["Update"]))
+              {
+                  <span class="text-danger">@TempData["Update"].ToString()</span>
+              }
+              @if (!string.IsNullOrWhiteSpace((string)TempData["NewAuctionCreate"]))
+              {
+                  <span class="text-danger">@TempData["NewAuctionCreate"].ToString()</span>
+              }
+
+          </div>
+    <form asp-controller="Admin" asp-action="GetNewAuctionForm"
+          data-ajax="true" data-ajax-method="get" data-ajax-mode="replace"
+          data-ajax-update="#adminAuctionModal"
+          data-toggle="modal" data-target="#adminAuctionModal">
+        <input type="submit" class="btn btn-primary" value="New Auction"/>
+    </form>
+    
+    <br /><br />
+    <div id="adminAuctionTable" class="row" style="max-height: 282px; overflow-y: auto; background-color: white;">
+        @await Html.PartialAsync("_AdminAuctions",Model)
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="adminAuctionModal" role="dialog">
+
+</div>
