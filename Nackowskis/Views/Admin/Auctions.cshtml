@@ -24,6 +24,10 @@
               {
                   <span class="text-danger">@TempData["NewAuctionCreate"].ToString()</span>
               }
+              @if (!string.IsNullOrWhiteSpace((string)TempData["NewAuctionErrors"]))
+              {
+                  <span class="text-danger">@TempData["NewAuctionErrors"].ToString()</span>
+              }
 
           </div>
     <form asp-controller="Admin" asp-action="GetNewAuctionForm"

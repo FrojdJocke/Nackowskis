@@ -1,4 +1,25 @@
 ﻿@model Nackowskis.ViewModels.UserModel
+@*<script src="https://apis.google.com/js/platform.js" async defer></script>
+    <meta name="google-signin-client_id" content="370379800654-1n13e3gonhc8e618bpvtm5sf5h20bsde.apps.googleusercontent.com">
+    <script>
+        function onSignIn(googleUser) {
+            var profile = googleUser.getBasicProfile();
+            console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+            console.log('Name: ' + profile.getName());
+            console.log('Image URL: ' + profile.getImageUrl());
+            console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+        }
+    </script>*@
+<style>
+    img {
+        width: auto;
+        height: 20px;
+    }
+    .btn {
+        opacity: 0.9;
+    }
+</style>
+
 
 <div class="modal-dialog">
 
@@ -21,6 +42,11 @@
                 <span asp-validation-for="@Model.Password"></span>
                 <br /><br />
                 <input id="login" type="submit" value="Logga in" class="btn btn-default modal-btn" />
+                <a class="btn btn-default" style="opacity: 0.9;" asp-controller="User" asp-action="GoogleLogin"
+                   asp-route-returnUrl="@ViewBag.returnUrl">
+                    <img src="Images/Googlelogo.png"/>
+                </a>
+                @*<div class="g-signin2" data-onsuccess="onSignIn"></div>*@
             </form>
 
         </div>

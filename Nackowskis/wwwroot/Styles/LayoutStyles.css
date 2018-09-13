@@ -1,4 +1,12 @@
-﻿.back-to-top {
+﻿body {
+    background-image: url('../images/1--4663414-geometric pattern of white triangles loop.jpg');
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.back-to-top {
     background: none;
     margin: 0;
     position: fixed;

@@ -15,8 +15,14 @@ namespace Nackowskis.Controllers
     {
         #region //Dependency Injections
         private readonly AuctionMethods _auctionMethods;
+        private readonly UserMethods _userMethods;
 
-        public AdminController(AuctionMethods methods) => _auctionMethods = methods;
+        public AdminController(AuctionMethods methods,UserMethods user)
+        {
+            _auctionMethods = methods;
+            _userMethods = user;
+        }
+        
 
         #endregion
 
@@ -41,16 +47,32 @@ namespace Nackowskis.Controllers
             }
             return PartialView("_NewAuction",model);
         }
-
-        //public IActionResult GetUserAuctions(string name)
-        //{
-        //    return PartialView("_AdminAuctions");
-        //}
+        
         public IActionResult DeleteAuction(int auctionId)
         {
             var deleted = _auctionMethods.DeleteAuction(auctionId);
 
             return RedirectToAction("Auctions");
+        }
+
+        public IActionResult UpgradeUsers()
+        {
+            var model = _userMethods.GetUsers("Regular");
+
+            return View(model);
+        }
+
+        public async Task<IActionResult> UpgradeToAdmin(string userName)
+        {
+            var result = await _userMethods.UpgradeUser("Admin",userName);
+            if (result.Succeeded)
+            {
+                TempData["Upgrade"] = $"{userName} was upgraded to Admin";
+                return RedirectToAction("UpgradeUsers");
+            }
+
+            TempData["Upgrade"] = $"Something went wrong";
+            return RedirectToAction("UpgradeUsers");
         }
     }
 }

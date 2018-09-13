@@ -14,7 +14,18 @@
                 <div class="row" style="background-color: yellow;">
                     <div class="col-sm-6">
                         <h1>@Model.Auction.Titel</h1>
+                        <br/><label style="float: left;">Previous bids</label><br/><br />
+                        <div style="overflow-y: auto; max-height: 80px;  text-align: left !important; background-color: white;">
+                            <dl>
+                                @foreach (var item in Model.Bids)
+                                {
+                                    <dd style="float: left;">@item.Summa</dd><br />
+                                    
+                                }
+                            </dl>
+                        </div>
                     </div>
+                    <br/>
                     <div class="col-sm-6">
 
                         @if (Model.Auction.SlutDatum > DateTime.Now)
@@ -22,13 +33,17 @@
                             <h3>Highest Bid</h3>
                             <label>@(Model.Bids.Count > 0 ? Model.Bids.Max(x => x.Summa).ToString()+":-" : "No bids at this moment")</label>
                             <br /><br />
-                            <form asp-controller="Auction" asp-action="NewBid" method="post">
-                                <input asp-for="NewBid.Summa" type="number" min="@(Model.Bids.Count > 0 ? Model.Bids.Max(x => x.Summa)+1 : Model.Auction.Utropspris)" 
-                                       value="@(Model.Bids.Count > 0 ? Model.Bids.Max(x => x.Summa)+1 : Model.Auction.Utropspris)" />
-                                <input type="submit" value="Bid" />
-                                <input asp-for="NewBid.AuktionID" value="@Model.Auction.AuktionID" hidden />
-                                <input asp-for="NewBid.Budgivare" value="@User.Identity.Name" hidden />
-                            </form>
+                            if (User.IsInRole("Admin"))
+                            {
+                                  <form asp-controller="Auction" asp-action="NewBid" method="post">
+                                      <input asp-for="NewBid.Summa" type="number" min="@(Model.Bids.Count > 0 ? Model.Bids.Max(x => x.Summa)+1 : Model.Auction.Utropspris)"
+                                             value="@(Model.Bids.Count > 0 ? Model.Bids.Max(x => x.Summa)+1 : Model.Auction.Utropspris)" />
+                                      <input type="submit" value="Bid" class="btn btn-default"/>
+                                      <input asp-for="NewBid.AuktionID" value="@Model.Auction.AuktionID" hidden />
+                                      <input asp-for="NewBid.Budgivare" value="@User.Identity.Name" hidden />
+                                  </form>
+                            }
+                            
                         }
                         else
                         {
@@ -36,7 +51,7 @@
                             <label>@(Model.Bids.Max(x => x.Summa).ToString()):-</label>
                             <br /><br />
                         }
-
+                        <br/>
                     </div>
                 </div>
                 <div class="row" style="background-color: lime;">
@@ -46,7 +61,7 @@
                 </div>
 
                 <div div class="row" style="background-color: aqua;">
-                    <div class="col-sm-12" style="overflow-y: auto; max-height: 200px;">
+                    <div class="col-sm-12" style="overflow-y: auto; max-height: 200px; text-align: left; white-space: pre-wrap;">
                         <p>@Model.Auction.Beskrivning</p>
                     </div>
                 </div>

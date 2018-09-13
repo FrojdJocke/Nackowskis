@@ -27,8 +27,7 @@ namespace Nackowskis
             services.AddMvc();
 
             
-             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"
                 )));
 
             services.AddTransient<IAuctionRepository, AuctionRepository>();
@@ -54,6 +53,18 @@ namespace Nackowskis
             services.AddDistributedMemoryCache();
 
             services.AddSingleton<HttpClientServices>();
+
+            services.AddAuthentication().AddFacebook(options =>
+            {
+                options.AppId = Configuration["Authentication:Facebook:AppId"];
+                options.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
+            });
+            services.AddAuthentication().AddGoogle(options =>
+            {
+                options.ClientId = Configuration["Authentication:Google:AppId"];
+                options.ClientSecret = Configuration["Authentication:Google:AppSecret"];
+                options.CallbackPath = "/User/GoogleResponse";
+            });
 
         }
 

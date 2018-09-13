@@ -78,6 +78,12 @@ namespace Nackowskis.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (vm.SlutDatum < DateTime.Now)
+                {
+                    TempData["NewAuctionErrors"] = "Deadline can't be before current date!";
+
+                    return RedirectToAction("Auctions", "Admin");
+                }
                 var auctionSuccess = _auctionMethods.CreateNewAuction(vm);
                 if (auctionSuccess)
                 {
@@ -89,7 +95,7 @@ namespace Nackowskis.Controllers
                 return RedirectToAction("Auctions", "Admin");
             }
 
-            TempData["NewActionErrors"] = "";
+            TempData["NewAuctionErrors"] = "Error: ";
             foreach (var state in ViewData.ModelState.Values)
             {
                 foreach (var error in state.Errors)

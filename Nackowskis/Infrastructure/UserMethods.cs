@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Nackowskis.Models;
 using Nackowskis.Repository;
 using Nackowskis.ViewModels;
@@ -60,6 +61,39 @@ namespace Nackowskis.Infrastructure
         public async void SignOut()
         {
             await _signInManager.SignOutAsync();
+        }
+        /// <summary>
+        /// Returns a list of ApplicationUser with matching role
+        /// </summary>
+        /// <param name="role"></param>
+        /// <returns></returns>
+        public List<ApplicationUser> GetUsers(string role)
+        {
+            var users = new List<ApplicationUser>();
+            foreach (var user in _userManager.Users.ToList())
+            {
+                if (_userManager.IsInRoleAsync(user, role).Result)
+                {
+                    users.Add(user);
+                }
+            }
+
+            return users;
+        }
+
+        public async Task<IdentityResult> UpgradeUser(string toRole, string userName)
+        {
+            var model = _userManager.FindByNameAsync(userName).Result;
+
+            //var roles = _userManager.GetRolesAsync(model).Result.ToList();
+
+            var remove = await _userManager.RemoveFromRoleAsync(model, "Regular");
+            if (remove.Succeeded)
+            {
+                return _userManager.AddToRoleAsync(model, toRole).Result;
+            }
+
+            return remove;
         }
     }
 }

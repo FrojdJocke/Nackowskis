@@ -20,6 +20,9 @@
                 Estimate
             </th>
             <th scope="col">
+                Leader
+            </th>
+            <th scope="col">
                 Actions
             </th>
         </tr>
@@ -34,6 +37,7 @@
                 <td>@item.Auction.StartDatum.ToString("M", CultureInfo.GetCultureInfo("en-GB").DateTimeFormat)&nbsp;@item.Auction.StartDatum.ToString("t")</td>
                 <td>@item.Auction.SlutDatum.ToString("M", CultureInfo.GetCultureInfo("en-GB").DateTimeFormat)&nbsp;@item.Auction.SlutDatum.ToString("t")</td>
                 <td>@(item.Auction.Utropspris):-</td>
+                <td>@(item.Bids.Count > 0 ? item.Bids.Max(x => x.Summa).ToString()+":-" : "N/A")</td>
                 <td>
                     <a asp-controller="Admin" asp-action="GetNewAuctionForm" asp-route-update="true" asp-route-id="@item.Auction.AuktionID" class="btn btn-warning"
                        data-ajax="true" data-ajax-method="get" data-ajax-mode="replace"
