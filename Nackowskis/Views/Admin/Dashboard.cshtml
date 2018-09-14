@@ -1,0 +1,56 @@
+﻿@model Nackowskis.ViewModels.DashboardModel
+
+<script defer>
+    $(function () {
+
+        Eventhandlers();
+
+        $("#changeSubmit").trigger('submit');
+    })
+    function Eventhandlers() {
+        $("#showAllCheckbox").change(function () {
+            $("#changeSubmit").trigger('submit');
+        })
+    }
+</script>
+
+<div class="container-fluid">
+    <div class="row">
+        <div id="dashboardHeader">
+            <h1>Dashboard</h1>
+        </div>
+    </div>
+    <br /><br />
+
+
+    <form asp-controller="Admin" asp-action="GetStatistics" data-ajax="true" data-ajax-method="get" data-ajax-mode="replace"
+          data-ajax-update="#statsContainer">
+        <div class="row">
+            <div class="col-sm-4 col-sm-offset-2">
+                <div class="form form-group">
+                    <label class="control-label">My auctions only</label>
+                    <input asp-for="MyAuctionsOnly" type="checkbox" id="showAllCheckbox" />
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <select asp-for="Date" id="selectMonth" class="form-control">
+                        @foreach (var item in Model.Dates)
+                        {
+                            <option>@item</option>
+                        }
+                    </select>
+                </div>
+            </div>
+
+
+        </div>
+        <input asp-for="Username" value="@User.Identity.Name" hidden/>
+        <input id="changeSubmit" type="submit" hidden/>
+    </form>
+    <br/><br/>
+    <div id="statsContainer" class="row" style=" overflow-y: auto;">
+
+    </div>
+</div>
+

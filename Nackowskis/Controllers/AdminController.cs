@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Nackowskis.Infrastructure;
@@ -11,6 +13,7 @@ using Nackowskis.ViewModels;
 
 namespace Nackowskis.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
         #region //Dependency Injections
@@ -26,9 +29,9 @@ namespace Nackowskis.Controllers
 
         #endregion
 
-        public IActionResult Auctions()
+        public async Task<IActionResult> Auctions()
         {
-            var model = _auctionMethods.GetAdminAuctions(User.Identity.Name);
+            var model = await _auctionMethods.GetAdminAuctions(User.Identity.Name);
 
             return View(model);
         }
@@ -73,6 +76,22 @@ namespace Nackowskis.Controllers
 
             TempData["Upgrade"] = $"Something went wrong";
             return RedirectToAction("UpgradeUsers");
+        }
+
+        public IActionResult Dashboard()
+        {
+            ViewData["Date"] = DateTime.Today.ToString("d");
+            var model = new DashboardModel();
+            model.Dates = _auctionMethods.GetAuctions().OrderByDescending(x => x.StartDatum).Select(x => x.StartDatum.ToString("Y")).Distinct().ToList();
+            
+            return View(model);
+        }
+
+        public IActionResult GetStatistics(DashboardModel vm)
+        {
+            var model = _auctionMethods.GetAuctionStatistics(vm);
+
+            return PartialView("_DashboardStats",model);
         }
     }
 }

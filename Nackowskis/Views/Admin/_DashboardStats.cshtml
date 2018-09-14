@@ -1,0 +1,83 @@
+﻿@model List<Nackowskis.ViewModels.DashboardStatsModel>
+
+
+<canvas id="myChart" width="400" height="150"></canvas>
+<script defer>
+    var names = [];
+    var est = [];
+    var diff = [];
+    var high = [];
+
+    @foreach (var item in Model)
+    {
+        <text>
+    names.push('@item.AuctionName');
+    est.push(@item.EstimatePrice);
+    diff.push(@item.Difference);
+    high.push(@item.WinningBid);
+
+
+        </text>
+    }
+
+
+    //var names = ["Auktion1", "Auktion2","auktion3"];
+    //var lowest = [12, 19, 3];
+    //var diff = [19, 24, 9];
+    //var highest = [22, 30, 14];
+    
+    var ctx = $("#myChart");
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: names,
+            datasets: [
+                {
+                    label: 'Estimate',
+                    data: est,
+
+                    backgroundColor: 'rgba(204, 0, 51, 0.5)',
+                    //borderColor: 'rgba(204, 0, 51, 0.9)',
+                    borderWidth: 1
+                },
+
+                {
+                    label: 'Diff',
+                    data: diff,
+                    backgroundColor: 'rgba(253, 220, 36, 0.6)',
+                    //borderColor:'rgba(255, 206, 86, 1)',
+                    borderWidth: 1
+                },
+
+                {
+                    label: 'Winner',
+                    data: high,
+                    backgroundColor: 'rgb(0, 204, 51,0.5)',
+                    //borderColor: 'rgb(0, 204, 51,1)',
+                    borderWidth: 1
+                }
+            ]
+        },
+
+        options: {
+            scales: {
+                //xAxes: [
+                //    {
+                //        stacked: true
+                //    }],
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    },
+                    //stacked:true
+                }]
+            }
+        }
+    });
+
+    function myFunction(item, index) {
+        return item;
+    }
+
+</script>
+

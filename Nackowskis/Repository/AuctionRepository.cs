@@ -34,9 +34,9 @@ namespace Nackowskis.Repository
             return HttpHelpers.ResponseToModel(response, new Auction());
         }
         
-        public List<Auction> GetUserAuctions(string name)
+        public async Task<List<Auction>> GetUserAuctions(string name)
         {
-            var response = httpClient.client.GetAsync(apiBaseAddress + groupNumber).Result;
+            var response = await httpClient.client.GetAsync(apiBaseAddress + groupNumber);
 
             var auctions = HttpHelpers.ResponseToModelList(response, new Auction());
 

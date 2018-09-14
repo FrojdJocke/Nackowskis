@@ -41,9 +41,9 @@ namespace Nackowskis.Infrastructure
         /// </summary>
         /// <param name="userName"></param>
         /// <returns></returns>
-        public List<AdminAuctionViewModel> GetAdminAuctions(string userName)
+        public async Task<List<AdminAuctionViewModel>> GetAdminAuctions(string userName)
         {
-            var auctions = _auctionRepo.GetUserAuctions(userName);
+            var auctions = await _auctionRepo.GetUserAuctions(userName);
             var model = new List<AdminAuctionViewModel>();
             foreach (var a in auctions)
             {
@@ -101,6 +101,40 @@ namespace Nackowskis.Infrastructure
         public bool UpdateAuction(Auction vm)
         {
             return _auctionRepo.UpdateAuction(vm);
+        }
+
+        public List<DashboardStatsModel> GetAuctionStatistics(DashboardModel vm)
+        {
+            var list = new List<DashboardStatsModel>();
+            var auctions = _auctionRepo.GetAuctions();
+            var sortAuction = auctions.Where(x => 
+                x.SlutDatum < DateTime.Today && (x.StartDatum.ToString("Y") == vm.Date || x.SlutDatum.ToString("Y") == vm.Date)).ToList();
+
+            if (vm.MyAuctionsOnly)
+            {
+                sortAuction = sortAuction.Where(x => x.SkapadAv == vm.Username).ToList();
+            }
+
+            foreach (var a in sortAuction)
+            {
+                var bids = _bidRepo.GetBidsForAuction(a.AuktionID);
+                var highbid = 0;
+                if (bids.Any())
+                {
+                    highbid = bids.Max(x => x.Summa);
+                }
+                var model = new DashboardStatsModel
+                {
+                    AuctionName = a.Titel,
+                    EstimatePrice = a.Utropspris,
+                    WinningBid = highbid
+                };
+                model.Difference = Calculate.Difference(model.EstimatePrice, model.WinningBid);
+
+                list.Add(model);
+            }
+
+            return list;
         }
     }
 }

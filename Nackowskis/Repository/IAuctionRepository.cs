@@ -15,7 +15,7 @@ namespace Nackowskis.Repository
 
         //List<Auction> GetFilteredAuctions(string filter);
 
-        List<Auction> GetUserAuctions(string name);
+        Task<List<Auction>> GetUserAuctions(string name);
 
         bool PostAuction(Auction model);
 

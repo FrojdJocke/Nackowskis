@@ -16,6 +16,7 @@
     <link rel="stylesheet" id="font-awesome-css" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" type="text/css" media="screen">
     <link href="~/Styles/LayoutStyles.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
     <script src="~/JS/JavaScript.js" defer></script>
     @inject SignInManager<ApplicationUser> SignInManager
     @inject UserManager<ApplicationUser> UserManager
@@ -52,7 +53,7 @@
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a asp-controller="Home" asp-action="Index">Dashboard</a>
+                                        <a asp-controller="Admin" asp-action="Dashboard">Dashboard</a>
                                     </li>
                                     <li>
                                         <a asp-controller="Admin" asp-action="Auctions">Auctions</a>
@@ -109,8 +110,8 @@
         <i class="fa fa-arrow-circle-up custom-up-arrow"></i>
     </a>
     <div class="row container-fluid">
-        <div class="col-sm-10 col-sm-offset-1 panel" style="background-color: rgba(255,255,255,0.5)"  align="center">
-            <div class="content" style="z-index: 9999;">
+        <div class="col-sm-10 col-sm-offset-1 panel" style="background-color: rgba(250, 250, 240,0.4) "  align="center">
+            <div class="content" style="z-index: 2000;">
                 @RenderBody()
             </div>
         </div>
