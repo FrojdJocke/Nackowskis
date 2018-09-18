@@ -18,10 +18,12 @@ namespace Nackowskis.Models
         [DataMember]
         [Required]
         [MinLength(3,ErrorMessage = "Title must be of at least 3 characters")]
+        [MaxLength(20,ErrorMessage = "Maxlength for Title is 20 characters")]
         public string Titel { get; set; }
 
         [DataMember]
         [Required]
+        [MaxLength(255,ErrorMessage = "Max length is 255 characters")]
         public string Beskrivning { get; set; }
 
         [DataMember]
@@ -30,7 +32,7 @@ namespace Nackowskis.Models
         [DataMember]
         [DataType(DataType.Date)]
         [Required(ErrorMessage = "Deadline of auction is obviously required!")]
-        [DateRange()]
+        [DateRange]
         public DateTime SlutDatum { get; set; }
 
         [DataMember]
@@ -38,6 +40,7 @@ namespace Nackowskis.Models
 
         [DataMember]
         [Required]
+        [RegularExpression("[0-9]*$",ErrorMessage = "Estimate price must be of a numerical value")]
         public int Utropspris { get; set; }
 
         [DataMember]

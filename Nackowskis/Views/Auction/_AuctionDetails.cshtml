@@ -3,66 +3,76 @@
 <div class="modal-dialog" style="max-height: 200px;">
 
     <!-- Modal content-->
-    <div class="modal-content">
+    <div class="modal-content" style="background-color: burlywood;"
+">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">&times;</button>
             <h2 class="modal-title">Details</h2>
         </div>
-        <div class="modal-body">
+        <div class="modal-body" style="background-color: rgba(255,255,255,0.7)">
             <!-- Här kan man skriva Modalens innehåll-->
             <div class="container-fluid" align="center">
-                <div class="row" style="background-color: yellow;">
+                <div class="row" style="padding-bottom: 10px;">
+                    <div >
+                        <h3>@Model.Auction.Titel</h3>
+                    </div>
                     <div class="col-sm-6">
-                        <h1>@Model.Auction.Titel</h1>
-                        <br/><label style="float: left;">Previous bids</label><br/><br />
-                        <div style="overflow-y: auto; max-height: 80px;  text-align: left !important; background-color: white;">
+
+                        <label style="float: left;">Previous bids</label><br/><br/>
+                        <br/><br/>
+                        <div class="panel" style="overflow-y: auto; max-height: 80px; text-align: left !important; background-color: white;">
                             <dl>
                                 @foreach (var item in Model.Bids)
                                 {
-                                    <dd style="float: left;">@item.Summa</dd><br />
-                                    
+                                    <dd style="float: left;">@item.Summa</dd><br/>
+
                                 }
                             </dl>
                         </div>
                     </div>
-                    <br/>
+                    
                     <div class="col-sm-6">
 
                         @if (Model.Auction.SlutDatum > DateTime.Now)
                         {
-                            <h3>Highest Bid</h3>
-                            <label>@(Model.Bids.Count > 0 ? Model.Bids.Max(x => x.Summa).ToString()+":-" : "No bids at this moment")</label>
-                            <br /><br />
-                            if (User.IsInRole("Admin"))
-                            {
-                                  <form asp-controller="Auction" asp-action="NewBid" method="post">
-                                      <input asp-for="NewBid.Summa" type="number" min="@(Model.Bids.Count > 0 ? Model.Bids.Max(x => x.Summa)+1 : Model.Auction.Utropspris)"
-                                             value="@(Model.Bids.Count > 0 ? Model.Bids.Max(x => x.Summa)+1 : Model.Auction.Utropspris)" />
-                                      <input type="submit" value="Bid" class="btn btn-default"/>
-                                      <input asp-for="NewBid.AuktionID" value="@Model.Auction.AuktionID" hidden />
-                                      <input asp-for="NewBid.Budgivare" value="@User.Identity.Name" hidden />
-                                  </form>
-                            }
-                            
+                            <div class="form-group">
+                                <label class="control-label">Highest Bid</label><br />
+                                <p>@(Model.Bids.Count > 0 ? Model.Bids.Max(x => x.Summa).ToString() + ":-" : "No bids at this moment")</p>
+                                <br />
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    <form asp-controller="Auction" asp-action="NewBid" method="post">
+                                        <input class="form-control col-sm-2" asp-for="NewBid.Summa" type="number" min="@(Model.Bids.Count > 0 ? Model.Bids.Max(x => x.Summa) + 1 : Model.Auction.Utropspris)"
+                                               value="@(Model.Bids.Count > 0 ? Model.Bids.Max(x => x.Summa) + 1 : Model.Auction.Utropspris)" />
+                                        <span asp-validation-for="NewBid.Summa" class="text-danger"></span>
+                                        <br/><br/>
+                                        <input class="btn btn-success" type="submit" value="Bid" class="btn btn-default" />
+                                        <input asp-for="NewBid.AuktionID" value="@Model.Auction.AuktionID" hidden />
+                                        <input asp-for="NewBid.Budgivare" value="@User.Identity.Name" hidden />
+                                    </form>
+                                }
+                            </div>
+
                         }
                         else
                         {
-                            <h3>Winning Bid</h3>
-                            <label>@(Model.Bids.Max(x => x.Summa).ToString()):-</label>
-                            <br /><br />
+                            <label>Winning Bid</label>
+                            <p>@(Model.Bids.Any() == false ? "No bids": $"{Model.Bids.Max(x => x.Summa).ToString()}:-")</p>
+                            <br/><br/>
                         }
-                        <br/>
+                        
                     </div>
                 </div>
-                <div class="row" style="background-color: lime;">
-                    <div class="col-sm-6">
-                        <label>Deadline: @Model.Auction.SlutDatum.ToString()</label>
+                <hr/>
+                <div class="row">
+                    <div class="col-sm-5">
+                        <label class="control-label">Deadline: @Model.Auction.SlutDatum.ToString()</label>
                     </div>
                 </div>
-
-                <div div class="row" style="background-color: aqua;">
-                    <div class="col-sm-12" style="overflow-y: auto; max-height: 200px; text-align: left; white-space: pre-wrap;">
-                        <p>@Model.Auction.Beskrivning</p>
+                <hr/>
+                <div div class="row" >
+                    <div class="col-sm-12" style="overflow-y: auto; max-height: 120px; text-align: left; white-space: pre-wrap;">
+                        <p>@Model.Auction.Beskrivning.Trim()</p>
                     </div>
                 </div>
                 <div class="row">
@@ -71,7 +81,7 @@
             </div>
             <!--Innehåll Slut-->
         </div>
-        <div class="modal-footer" style="background-color: red;">
+        <div class="modal-footer">
             
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         </div>

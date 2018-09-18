@@ -70,10 +70,10 @@ namespace Nackowskis.Infrastructure
             return list.Where(x => x.SlutDatum > DateTime.Now).ToList();
         }
 
-        public bool BidIsValid(int leadingBid, int newBid)
+        public bool BidIsValid(int auctionId, int newBid)
         {
-            if (newBid < 1) return false;
-            return newBid > leadingBid;
+            var bids = _bidRepo.GetBidsForAuction(auctionId);
+            return bids.Count == 0 ? true : Calculate.GreaterValueControl(bids.Max(x => x.Summa), newBid);
         }
 
         public bool CreateNewAuction(Auction model)
@@ -107,7 +107,11 @@ namespace Nackowskis.Infrastructure
         {
             var list = new List<DashboardStatsModel>();
             var auctions = _auctionRepo.GetAuctions();
-            var sortAuction = auctions.Where(x => 
+            var sortAuction = new List<Auction>();
+            sortAuction = vm.ShowOpenAuctions == true ? 
+                auctions.Where(x => x.StartDatum.ToString("Y") == vm.Date || x.SlutDatum.ToString("Y") == vm.Date).ToList() 
+                :
+                auctions.Where(x =>
                 x.SlutDatum < DateTime.Today && (x.StartDatum.ToString("Y") == vm.Date || x.SlutDatum.ToString("Y") == vm.Date)).ToList();
 
             if (vm.MyAuctionsOnly)

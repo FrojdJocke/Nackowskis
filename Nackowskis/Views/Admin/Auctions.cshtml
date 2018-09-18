@@ -11,36 +11,42 @@
 <div class="container-fluid">
     <div class="row">
         <div id="auctionHeader">
-            <h1 style="font-size: 50px;">My Auctions</h1>
+            <img class="animated bounceInUp delay-2s" style="width: 350px; height: auto;"src="~/Images/picturetopeople.org-60e91ee8aea9a6566c36948973607e2e33542a57732449f0bc.png" />
+
         </div>
     </div>
     <br /><br />
-          <div class="row">
-              @if (!string.IsNullOrWhiteSpace((string)TempData["Update"]))
-              {
-                  <span class="text-danger">@TempData["Update"].ToString()</span>
-              }
-              @if (!string.IsNullOrWhiteSpace((string)TempData["NewAuctionCreate"]))
-              {
-                  <span class="text-danger">@TempData["NewAuctionCreate"].ToString()</span>
-              }
-              @if (!string.IsNullOrWhiteSpace((string)TempData["NewAuctionErrors"]))
-              {
-                  <span class="text-danger">@TempData["NewAuctionErrors"].ToString()</span>
-              }
+    <div class="row">
+        @if (!string.IsNullOrWhiteSpace((string)TempData["Update"]))
+        {
+            <span class="text-danger">@TempData["Update"].ToString()</span>
+        }
+        @if (!string.IsNullOrWhiteSpace((string)TempData["NewAuctionCreate"]))
+        {
+            <span class="text-danger">@TempData["NewAuctionCreate"].ToString()</span>
+        }
+        @if (!string.IsNullOrWhiteSpace((string)TempData["NewAuctionErrors"]))
+        {
+            <span class="text-danger">@TempData["NewAuctionErrors"].ToString()</span>
+        }
 
-          </div>
-    <form asp-controller="Admin" asp-action="GetNewAuctionForm"
-          data-ajax="true" data-ajax-method="get" data-ajax-mode="replace"
-          data-ajax-update="#adminAuctionModal"
-          data-toggle="modal" data-target="#adminAuctionModal">
-        <input type="submit" class="btn btn-primary" value="New Auction"/>
-    </form>
+    </div>
+    @*<form asp-controller="Admin" asp-action="GetNewAuctionForm"
+              data-ajax="true" data-ajax-method="get" data-ajax-mode="replace"
+              data-ajax-update="#adminAuctionModal"
+              data-toggle="modal" data-target="#adminAuctionModal">
+            <input type="submit" class="btn btn-primary" value="New Auction"/>
+        </form>*@
     
+
     <br /><br />
     <div id="adminAuctionTable" class="row" style="max-height: 282px; overflow-y: auto; background-color: white;">
-        @await Html.PartialAsync("_AdminAuctions",Model)
+        @await Html.PartialAsync("_AdminAuctions", Model)
     </div>
+    <br/>
+    <form asp-controller="Admin" asp-action="GetNewAuctionForm" method="post">
+    <input type="submit" class="btn btn-primary" value="New Auction" />
+</form>
 </div>
 <!-- Modal -->
 <div class="modal fade" id="adminAuctionModal" role="dialog">

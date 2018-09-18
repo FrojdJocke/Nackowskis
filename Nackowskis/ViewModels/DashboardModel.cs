@@ -10,6 +10,7 @@ namespace Nackowskis.ViewModels
         public List<string> Dates { get; set; }
         public string Date { get; set; }
         public bool MyAuctionsOnly { get; set; }
+        public bool ShowOpenAuctions { get; set; }
         public string Username { get; set; }
     }
 }

@@ -1,0 +1,112 @@
+﻿@model Nackowskis.Models.Auction
+
+@section Style{
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+
+}
+
+@section Script{
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <script>
+        $(function() {
+            $("#datepicker").datepicker();
+
+        });
+    </script>
+}
+
+<div class="container-fluid">
+    @if ((bool) ViewData["Update"] == false)
+    {
+        <form id="auctionForm" asp-controller="Auction" asp-action="NewAuction" method="post" style="padding-bottom: 40px;">
+            <div class="row">
+                <div id="auctionHeader">
+
+                    <img class="animated fadeInRight delay-2s" style="width: 350px; height: auto;" src="~/Images/picturetopeople.org-95c5b8667a95c7be64338f4374b2afca4afc9f8e57d63c4424.png" />
+                </div>
+            </div>
+            <br/><br/>
+            <div class="form-row">
+                <div class="form-group col-sm-6">
+                    <label asp-for="Titel">Titel</label>
+                    <input type="text" class="form-control" asp-for="Titel" placeholder="" required>
+                    <span asp-validation-for="Titel" class="text-danger"></span>
+                </div>
+                <div class="form-group col-sm-6">
+                    <label asp-for="Utropspris">Estimate</label>
+                    <input type="number" value="" class="form-control" asp-for="Utropspris" min="1" required>
+                    <span asp-validation-for="Utropspris" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="Beskrivning">Description</label>
+                <textarea class="form-control" placeholder="Description" asp-for="Beskrivning" style="resize: none; height: 100px;" required></textarea>
+                <span asp-validation-for="Beskrivning" class="text-danger"></span>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-sm-6 col-sm-offset-3">
+                    <label asp-for="SlutDatum">End Date</label>
+                    <input asp-for="SlutDatum" type="text" value="" id="datepicker" class="form-control" style="z-index: 5000;" required>
+                    <span asp-validation-for="SlutDatum" class="text-danger"></span>
+                </div>
+                <div class="form-group col-sm-2 col-sm-offset-1">
+                    <label> </label>
+                    <input type="hidden" asp-for="SkapadAv" value="@User.Identity.Name"/>
+                    <input type="submit" class="btn btn-primary form-control" value="Create"/>
+                </div>
+            </div>
+
+
+        </form>
+    }
+    else
+    {
+        <div class="row">
+            <div id="auctionHeader">
+                <img class="animated fadeInLeft delay-2s" style="width: 350px; height: auto;" src="~/Images/picturetopeople.org-80ff85e50207a205a081e46766539ca381583509588305de59.png" />
+
+            </div>
+        </div>
+        <br/>
+        <br/>
+        <form asp-controller="Auction" asp-action="UpdateAuction" asp-route-auctionId="@Model.AuktionID" style="padding-bottom: 40px;">
+            <div class="form-row">
+                <div class="form-group col-sm-6">
+                    <label asp-for="Titel">Titel</label>
+                    <input type="text" class="form-control" asp-for="Titel" value="@Model.Titel" required>
+                    <span asp-validation-for="Titel" class="text-danger"></span>
+                </div>
+                <div class="form-group col-sm-6">
+                    <label asp-for="Utropspris">Estimate</label>
+                    <input type="number" class="form-control" asp-for="Utropspris" value="@Model.Utropspris" min="1" required>
+                    <span asp-validation-for="Utropspris" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="Beskrivning">Description</label>
+                <textarea class="form-control" placeholder="Description" asp-for="Beskrivning" style="resize: none; height: 100px;" aria-valuetext="@Model.Beskrivning" required></textarea>
+                <span asp-validation-for="Beskrivning" class="text-danger"></span>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-sm-6 col-sm-offset-3">
+                    <label asp-for="SlutDatum">End Date</label>
+                    <input asp-for="SlutDatum" value="@Model.SlutDatum.ToString("d")" type="text" id="datepicker" class="form-control" style="z-index: 5000;" required>
+                    <span asp-validation-for="SlutDatum" class="text-danger"></span>
+                </div>
+                <div class="form-group col-sm-2 col-sm-offset-1">
+                    <label> </label>
+                    <input type="hidden" asp-for="SkapadAv" value="@User.Identity.Name"/>
+                    <input type="hidden" asp-for="Gruppkod" value="@Model.Gruppkod"/>
+                    <input type="hidden" asp-for="AuktionID" value="@Model.AuktionID"/>
+                    <input type="hidden" asp-for="StartDatum" value="@Model.StartDatum.ToString("d")"/>
+                    <input type="submit" class="btn btn-primary form-control" value="Update"/>
+                </div>
+            </div>
+
+
+        </form>
+    }
+</div>

@@ -62,15 +62,20 @@ namespace Nackowskis.Controllers
         //Fixa callback för info om vad som hänt
         public IActionResult NewBid(AuctionDetailsViewModel vm)
         {
-            //var bidValid = _auctionMethods.BidIsValid(vm.Bids.Max(x => x.Summa), vm.NewBid.Summa);
-            //if (!bidValid)
-            //    TempData["BidInvalid"] = "Bid was lower that the current highest bid. Don't be cheap stupid!";
-            bool success = _auctionMethods.PostNewBid(vm.NewBid);
-            if (success /*&& bidValid*/)
+            
+            var bidValid = _auctionMethods.BidIsValid(vm.NewBid.AuktionID, vm.NewBid.Summa);
+            if (!bidValid)
             {
+                TempData["BidInvalid"] = "Bid was lower that the current highest bid. Don't be cheap stupid!";
                 return RedirectToAction("Index");
             }
-
+            bool success = _auctionMethods.PostNewBid(vm.NewBid);
+            if (success)
+            {
+                TempData["BidSuccess"] = "Bid successfully posted";
+                return RedirectToAction("Index");
+            }
+            TempData["BidInvalid"] = "Something went wrong";
             return RedirectToAction("Index");
         }
 

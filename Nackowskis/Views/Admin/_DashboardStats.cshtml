@@ -7,11 +7,15 @@
     var est = [];
     var diff = [];
     var high = [];
+    var label = "Winner";
+    if (document.getElementById("showOpenCheckbox").checked == true) {
+        label = "Highest Bid";
+    }
 
     @foreach (var item in Model)
     {
         <text>
-    names.push('@item.AuctionName');
+    names.push('@Html.Raw(item.AuctionName)');
     est.push(@item.EstimatePrice);
     diff.push(@item.Difference);
     high.push(@item.WinningBid);
@@ -36,26 +40,28 @@
                     label: 'Estimate',
                     data: est,
 
-                    backgroundColor: 'rgba(204, 0, 51, 0.5)',
+                    //backgroundColor: 'rgba(204, 0, 51, 0.5)',
+                    backgroundColor: 'rgba(54, 162, 235, 0.7)',
                     //borderColor: 'rgba(204, 0, 51, 0.9)',
+                    borderWidth: 1
+                },
+                {
+                    label: label,
+                    data: high,
+                    backgroundColor: 'rgb(0, 204, 51,0.7)',
+                    //borderColor: 'rgb(0, 204, 51,1)',
                     borderWidth: 1
                 },
 
                 {
                     label: 'Diff',
                     data: diff,
-                    backgroundColor: 'rgba(253, 220, 36, 0.6)',
+                    backgroundColor: 'rgba(253, 220, 36, 0.8)',
                     //borderColor:'rgba(255, 206, 86, 1)',
                     borderWidth: 1
-                },
-
-                {
-                    label: 'Winner',
-                    data: high,
-                    backgroundColor: 'rgb(0, 204, 51,0.5)',
-                    //borderColor: 'rgb(0, 204, 51,1)',
-                    borderWidth: 1
                 }
+
+                
             ]
         },
 

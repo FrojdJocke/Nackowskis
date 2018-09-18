@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="wwwroot\Images\Bukowskis Market störst i Göteborg.jpg" />
+    <Content Remove="Views\Admin\_NewAuction.cshtml" />
   </ItemGroup>
 
   <ItemGroup>

@@ -48,7 +48,8 @@ namespace Nackowskis.Controllers
             {
                 ViewData["Update"] = false;
             }
-            return PartialView("_NewAuction",model);
+            //return PartialView("_NewAuction", model);
+            return View("NewAuction", model);
         }
         
         public IActionResult DeleteAuction(int auctionId)

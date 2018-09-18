@@ -23,7 +23,20 @@
 
         </div>
     </div>
-    <br/><br/>
+    <br/>
+    @{
+        var bidSuccess = TempData["BidSuccess"]?.ToString();
+        var bidInvalid = TempData["BidInvalid"]?.ToString();
+        if (bidSuccess != null)
+        {
+            <span class="text-success">@bidSuccess</span>
+        }
+        if (bidInvalid != null)
+        {
+            <span class="text-danger">@bidInvalid</span>
+        }
+    }
+    <br/>
     <div class="row">
         <form asp-controller="Auction" asp-action="GetAuctions" data-ajax="true" data-ajax-method="get" data-ajax-mode="replace"
               data-ajax-update="#auctionTable">

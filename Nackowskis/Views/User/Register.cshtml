@@ -2,43 +2,47 @@
 @{
     ViewData["Title"] = "Register";
 }
-
-<form class="form-horizontal" asp-controller="User" asp-action="RegisterUser" method="post">
-    <div class="form-group">
-        <label class="control-label col-sm-3">Name</label>
-        <div class="col-sm-7">
-            <input class="form-control" asp-for="UserName" type="text" placeholder="Enter name" />
-            <span class="text-danger" asp-validation-for="UserName"></span><br />
-
+<div class="container-fluid">
+    <div class="row">
+        <div id="auctionHeader">
+            <img class="animated fadeInRight delay-2s" style="width: 350px; height: auto;" src="~/Images/picturetopeople.org-95c5b8667a95c7be64338f4374b2afca4afc9f8e57d63c4424.png" />
         </div>
     </div>
+    <br/>
+    <form class="form-horizontal" asp-controller="User" asp-action="RegisterUser" method="post">
+        <div class="form-group">
+            <label class="control-label col-sm-3">Name</label>
+            <div class="col-sm-7">
+                <input class="form-control" asp-for="UserName" type="text" placeholder="Enter name"/>
+                <span class="text-danger" asp-validation-for="UserName"></span><br/>
 
-    <div class="form-group">
-        <label class="control-label col-sm-3" asp-for="Password"></label>
-        <div class="col-sm-7">
-            <input class="form-control" asp-for="Password" type="password" placeholder="Enter password" />
-            <span class="text-danger" asp-validation-for="Password"></span><br />
+            </div>
         </div>
-    </div>
-    @if (Model != null && Model.Unique == false)
-    {
-        <label class="text-danger">Användarnamnet finns redan</label><br />
-    }
-    <div class="form-group">
-        <label class="control-label col-sm-3"></label>
-        <div class="col-sm-7">
-            <input type="submit" class="btn btn-default" />
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="control-label col-sm-3"></label>
-        <div class="col-sm-7">
-            
-            <a>
-               <img src="~/Images/Googlelogo.png" style="width: 60px; height: auto;"/>
-            </a>
-        </div>
-    </div>
-</form>
 
+        <div class="form-group">
+            <label class="control-label col-sm-3" asp-for="Password"></label>
+            <div class="col-sm-7">
+                <input class="form-control" asp-for="Password" type="password" placeholder="Enter password"/>
+                <span class="text-danger" asp-validation-for="Password"></span><br/>
+            </div>
+        </div>
+        @if (Model != null && Model.Unique == false)
+        {
+            <label class="text-danger">Användarnamnet finns redan</label><br/>
+        }
+        <div class="form-group">
+            <label class="control-label col-sm-3"></label>
+            <div class="col-sm-7">
+                <input type="submit" class="btn btn-default"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-3"></label>
+            <div class="col-sm-7">
+
+
+            </div>
+        </div>
+    </form>
+</div>
 

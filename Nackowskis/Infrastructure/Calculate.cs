@@ -19,5 +19,10 @@ namespace Nackowskis.Infrastructure
             var result = res < 0 ? res * 1 : res;
             return result < 0 ? result * -1 : result;
         }
+
+        public static bool GreaterValueControl(int currentValue, int newValue)
+        {
+            return currentValue < newValue;
+        }
     }
 }

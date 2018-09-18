@@ -3,6 +3,7 @@
 <script defer>
     $(function () {
 
+
         Eventhandlers();
 
         $("#changeSubmit").trigger('submit');
@@ -10,14 +11,22 @@
     function Eventhandlers() {
         $("#showAllCheckbox").change(function () {
             $("#changeSubmit").trigger('submit');
-        })
+        });
+
+        $("#selectMonth").change(function() {
+            $("#changeSubmit").trigger('submit');
+        });
+        $("#showOpenCheckbox").change(function () {
+            $("#changeSubmit").trigger('submit');
+        });
     }
 </script>
 
 <div class="container-fluid">
     <div class="row">
         <div id="dashboardHeader">
-            <h1>Dashboard</h1>
+
+            <img class="animated swing delay-2s" style="width: 350px; height: auto;" src="~/Images/picturetopeople.org-aeaa06a17b592e5b1054c0954ea038544917097d9c670de0ee.png" />
         </div>
     </div>
     <br /><br />
@@ -26,10 +35,16 @@
     <form asp-controller="Admin" asp-action="GetStatistics" data-ajax="true" data-ajax-method="get" data-ajax-mode="replace"
           data-ajax-update="#statsContainer">
         <div class="row">
-            <div class="col-sm-4 col-sm-offset-2">
+            <div class="col-sm-4">
                 <div class="form form-group">
                     <label class="control-label">My auctions only</label>
                     <input asp-for="MyAuctionsOnly" type="checkbox" id="showAllCheckbox" />
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form form-group">
+                    <label class="control-label">Show open auctions</label>
+                    <input asp-for="ShowOpenAuctions" type="checkbox" id="showOpenCheckbox" />
                 </div>
             </div>
             <div class="col-sm-4">
