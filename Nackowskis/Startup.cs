@@ -5,7 +5,6 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Protocols;
 using Nackowskis.Infrastructure;
 using Nackowskis.Models;
 using Nackowskis.Repository;
@@ -62,8 +61,8 @@ namespace Nackowskis
             });
             services.AddAuthentication().AddGoogle(options =>
             {
-                options.ClientId = Configuration["AppId"];
-                options.ClientSecret = Configuration["AppSecret"];
+                options.ClientId = Configuration["Authentication:Google:AppId"];
+                options.ClientSecret = Configuration["Authentication:Google:AppSecret"];
                 options.CallbackPath = "/User/GoogleResponse";
             });
 
