@@ -33,14 +33,14 @@
                     
                     <div class="col-sm-6">
 
-                        @*@if (Model.Auction.SlutDatum > DateTime.Now)
-                        {*@
+                        @if (Model.Auction.SlutDatum > DateTime.Now)
+                        {
                             <div class="form-group">
                                 <label class="control-label">Highest Bid</label><br />
                                 <p>@(Model.Bids.Count > 0 ? Model.Bids.Max(x => x.Summa).ToString() + ":-" : "No bids at this moment")</p>
                                 <br />
-                                @if (User.IsInRole("Admin"))
-                                {
+                                @*@if (User.IsInRole("Admin"))
+                                {*@
                                     <form asp-controller="Auction" asp-action="NewBid" method="post">
                                         <input class="form-control col-sm-2" asp-for="NewBid.Summa" type="number" min="@(Model.Bids.Count > 0 ? Model.Bids.Max(x => x.Summa) + 1 : Model.Auction.Utropspris)"
                                                value="@(Model.Bids.Count > 0 ? Model.Bids.Max(x => x.Summa) + 1 : Model.Auction.Utropspris)" />
@@ -50,16 +50,16 @@
                                         <input asp-for="NewBid.AuktionID" value="@Model.Auction.AuktionID" hidden />
                                         <input asp-for="NewBid.Budgivare" value="@User.Identity.Name" hidden />
                                     </form>
-                                }
+                                @*}*@
                             </div>
 
-                            //}
-                        @*else
+                        }
+                        else
                         {
                             <label>Winning Bid</label>
                             <p>@(Model.Bids.Any() == false ? "No bids": $"{Model.Bids.Max(x => x.Summa).ToString()}:-")</p>
                             <br/><br/>
-                        }*@
+                        }
                         
                     </div>
                 </div>
