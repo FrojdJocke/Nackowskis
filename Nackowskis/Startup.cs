@@ -54,15 +54,11 @@ namespace Nackowskis
 
             services.AddSingleton<HttpClientServices>();
 
-            services.AddAuthentication().AddFacebook(options =>
-            {
-                options.AppId = Configuration["Authentication:Facebook:AppId"];
-                options.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
-            });
+            
             services.AddAuthentication().AddGoogle(options =>
             {
-                options.ClientId = Configuration["Authentication:Google:AppId"];
-                options.ClientSecret = Configuration["Authentication:Google:AppSecret"];
+                options.ClientId = "370379800654-1n13e3gonhc8e618bpvtm5sf5h20bsde.apps.googleusercontent.com";
+                options.ClientSecret = "Mb7MjlCwWURUpp5tTK7Soj_z";
                 options.CallbackPath = "/User/GoogleResponse";
             });
 
